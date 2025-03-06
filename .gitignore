@@ -1,0 +1,12 @@
+
+.vercel
+# Ignore Python cache folders
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local environment files
+.env
+venv/
+env/

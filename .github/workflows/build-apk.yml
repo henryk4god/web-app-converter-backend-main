@@ -1,0 +1,38 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [build-apk]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Install apktool
+      run: |
+        wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+        wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.6.0.jar
+        chmod +x apktool
+        sudo mv apktool /usr/local/bin/
+        sudo mv apktool_2.6.0.jar /usr/local/bin/apktool.jar
+
+    - name: Build APK
+      run: |
+        echo "Updating MainActivity.java with URL: ${{ github.event.client_payload.website_url }}"
+        sed -i "s|http://example.com|${{ github.event.client_payload.website_url }}|g" input-folder/src/com/example/app/MainActivity.java
+        java -jar /usr/local/bin/apktool.jar b input-folder -o web_app_converter.apk
+
+    - name: Upload APK
+      run: |
+        mkdir -p /path/to/generated/apks
+        mv web_app_converter.apk /path/to/generated/apks/web_app_converter_${{ github.sha }}.apk

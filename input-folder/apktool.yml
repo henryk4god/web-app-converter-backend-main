@@ -1,0 +1,21 @@
+apkFileName: web_app_converter.apk
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: null
+  renameManifestPackage: null
+  sharedLibrary: false
+  simpleMode: false
+  unknownFiles: {}
+  versionInfo:
+    versionCode: "1"
+    versionName: "1.0"
+sdkInfo:
+  minSdkVersion: "15"
+  targetSdkVersion: "30"
+sharedLibrary: false
+sparseResources: false
+unknownFiles: {}
+usesFramework:
+  ids:
+  - 1
+version: 2.5.0
