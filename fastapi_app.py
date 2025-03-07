@@ -63,9 +63,15 @@ def trigger_github_action(website_url):
         }
     }
     response = requests.post(url, headers=headers, data=json.dumps(data))
-    if response.status_code != 204:
-        raise Exception(f"Failed to trigger workflow: {response.status_code}")
-    return response.headers.get('X-GitHub-Delivery')
+    logging.debug(f"Response status code: {response.status_code}")
+    logging.debug(f"Response headers: {response.headers}")
+    logging.debug(f"Response body: {response.text}")
+    if response.status_code == 204:
+        logging.debug("Workflow triggered successfully")
+        return response.headers.get('X-GitHub-Delivery')
+    else:
+        logging.error(f"Failed to trigger workflow: {response.status_code}")
+        return None
 
 @app.get("/status/{sha}")
 def check_status(sha: str):
